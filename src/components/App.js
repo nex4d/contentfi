@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DTube from '../abis/DTube.json'
+import ContentFi from '../abis/ContentFi.json'
 import Navbar from './Navbar'
 import Main from './Main'
 import Footer from './Footer'
@@ -37,28 +37,28 @@ class App extends Component {
     this.setState({ account: accounts[0] })
     // Network ID
     const networkId = await web3.eth.net.getId()
-    const networkData = DTube.networks[networkId]
+    const networkData = ContentFi.networks[networkId]
     if(networkData) {
-      const dtube = new web3.eth.Contract(DTube.abi, networkData.address)
-      this.setState({ dtube })
-      const videosCount = await dtube.methods.videoCount().call()
+      const contentfi = new web3.eth.Contract(ContentFi.abi, networkData.address)
+      this.setState({ contentfi })
+      const videosCount = await contentfi.methods.videoCount().call()
       this.setState({ videosCount })
       // Load videos, sort by newest
       for (var i=videosCount; i>=1; i--) {
-        const video = await dtube.methods.videos(i).call()
+        const video = await contentfi.methods.videos(i).call()
         this.setState({
           videos: [...this.state.videos, video]
         })
       }
       //Set latest video with title to view as default 
-      const latest = await dtube.methods.videos(videosCount).call()
+      const latest = await contentfi.methods.videos(videosCount).call()
       this.setState({
         currentHash: latest.hash,
         currentTitle: latest.title
       })
       this.setState({ loading: false})
     } else {
-      window.alert('DTube contract not deployed to detected network.')
+      window.alert('ContentFi contract not deployed to detected network.')
     }
   }
 
@@ -86,7 +86,7 @@ class App extends Component {
       }
 
       this.setState({ loading: true })
-      this.state.dtube.methods.uploadVideo(result[0].hash, title).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.contentfi.methods.uploadVideo(result[0].hash, title).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
     })
@@ -102,7 +102,7 @@ class App extends Component {
     this.state = {
       buffer: null,
       account: '',
-      dtube: null,
+      contentfi: null,
       videos: [],
       loading: true,
       currentHash: null,
