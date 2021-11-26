@@ -12,8 +12,8 @@ class Navbar extends Component {
           href="/"
           rel="noopener noreferrer"
         >
-          <img src={dtube} width="30" height="30" className="d-inline-block align-top" alt="DTube logo" />
-          &nbsp;DTube
+          <img src={dtube} width="30" height="30" className="d-inline-block align-top" alt="ContentFi logo" />
+          &nbsp;ContentFi
         </a>
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap h5 d-none d-sm-none d-sm-block">
@@ -26,7 +26,7 @@ class Navbar extends Component {
                 width='30'
                 height='30'
                 src={`data:image/png;base64,${new Identicon(this.props.account, 30).toString()}`}
-                alt="DTube account address"
+                alt="ContentFi account address"
               />
               : <span></span>
             }
